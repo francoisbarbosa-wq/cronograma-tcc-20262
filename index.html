@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronograma TCC 2026 — IFMA Campus Caxias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;font-size:13px;background:#f5f5f5;color:#222;padding:20px}
+h1{font-size:18px;margin-bottom:4px;color:#1a3a5c}
+.sub{font-size:12px;color:#666;margin-bottom:16px}
+.top-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.top-bar input,.top-bar select{font-size:12px;padding:5px 9px;border:1px solid #ccc;border-radius:6px;background:#fff;color:#222;height:32px}
+.top-bar input{flex:1;min-width:160px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;background:#e8e8e8;color:#555;white-space:nowrap}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:#666}
+.leg{display:flex;align-items:center;gap:5px}
+.dot-ok{width:14px;height:14px;border-radius:50%;background:#4CAF50;border:2px solid #2e7d32}
+.dot-pend{width:14px;height:14px;border-radius:50%;background:#FFC107;border:2px solid #f57f17}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+thead th{font-size:11px;font-weight:600;color:#555;text-align:left;padding:7px 8px;background:#f0f0f0;border-bottom:1px solid #ddd;white-space:nowrap}
+tbody tr{border-bottom:1px solid #eee}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:7px 8px;vertical-align:top;font-size:12px}
+.day-sep{background:#e8f0f8!important}
+.day-sep td{font-size:11px;font-weight:700;color:#1a3a5c;padding:5px 8px;border-bottom:1px solid #c5d8ee}
+.hora{font-weight:700;color:#1565c0;white-space:nowrap;width:52px}
+.auth-ok{display:inline-block;width:22px;height:22px;border-radius:50%;background:#E8F5E9;border:2px solid #4CAF50;text-align:center;line-height:20px;font-size:13px}
+.auth-pend{display:inline-block;width:22px;height:22px;border-radius:50%;background:#FFF8E1;border:2px solid #FFC107;text-align:center;line-height:20px;font-size:12px}
+.meet{display:inline-block;font-size:10px;padding:1px 6px;border-radius:8px;background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;white-space:nowrap}
+.fab{display:inline-block;font-size:10px;padding:1px 6px;border-radius:8px;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;white-space:nowrap}
+.ca{width:15%}
+.ct{width:28%}
+.co{width:15%}
+.cv{width:18%}
+.cl{width:70px}
+.cau{width:40px;text-align:center}
+</style>
+</head>
+<body>
+<h1>📋 Cronograma de Defesas de TCC 2026</h1>
+<div class="sub">IFMA — Campus Caxias · BCC · 22/06 a 03/07/2026 · 39 defesas</div>
+
+<div class="top-bar">
+  <input type="text" id="search" placeholder="Buscar aluno, título, orientador..." oninput="render()">
+  <select id="fData" onchange="render()"><option value="">Todas as datas</option></select>
+  <select id="fLocal" onchange="render()">
+    <option value="">Todos os locais</option>
+    <option value="fab">Fábrica de Inovação</option>
+    <option value="meet">Google Meet</option>
+  </select>
+  <select id="fAuth" onchange="render()">
+    <option value="">Todas as autorizações</option>
+    <option value="ok">Autorizado ✓</option>
+    <option value="pend">Aguardando ⏳</option>
+  </select>
+  <span class="badge" id="count">0 defesas</span>
+</div>
+
+<div class="legend">
+  <div class="leg"><span class="dot-ok"></span> Autorizado</div>
+  <div class="leg"><span class="dot-pend"></span> Aguardando autorização</div>
+</div>
+
+<table>
+<thead><tr>
+  <th class="hora">Horário</th>
+  <th class="ca">Aluno(a)</th>
+  <th class="ct">Título</th>
+  <th class="co">Orientador(a)</th>
+  <th class="cv">Avaliadores</th>
+  <th class="cl">Local</th>
+  <th class="cau">Auth.</th>
+</tr></thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<script>
+const raw=[
+  {data:"22/06/2026",hora:"08:00",aluno:"Antonio Wills da Silva Santos",titulo:"Inteligência Artificial Aplicada à Melissopalinologia: Um Modelo de Visão-Linguagem para Identificação Morfológica do Pólen",orientador:"Maria Verônica Meira de Andrade",aval1:"José Wilker Pereira Luz",aval2:"José Jeovane Reges Cordeiro",local:"fab",auth:true},
+  {data:"22/06/2026",hora:"09:00",aluno:"Evelly Victory Vieira Pinto",titulo:"Desenvolvimento de um Dashboard para Monitoramento da Assimetria Postural dos Ombros via Visão Computacional",orientador:"Luís Fernando Maia Santos Silva",aval1:"José Wilker Pereira Luz",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"22/06/2026",hora:"10:00",aluno:"Francisco Leonel Ferreira dos Santos",titulo:"Localização Visual de Drones em Ambientes sem GNSS: Aplicação de Rede Neural para Correspondência Câmera-Satélite",orientador:"Luís Fernando Maia Santos Silva",aval1:"José Wilker Pereira Luz",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"22/06/2026",hora:"15:00",aluno:"Samuel Ryan da Fonseca Anunciacao",titulo:"Avaliação Automática de Redações do Enem usando JabuticabaBERT",orientador:"Rafael Torres Anchiêta",aval1:"Luís Fernando Maia Santos Silva",aval2:"José Wilker Pereira Luz",local:"fab",auth:true},
+  {data:"22/06/2026",hora:"16:30",aluno:"Guilherme Oliveira de Menezes",titulo:"Controle do Mouse por Meio de Movimentos Faciais",orientador:"Rafael Torres Anchiêta",aval1:"Luís Fernando Maia Santos Silva",aval2:"José Jeovane Reges Cordeiro",local:"fab",auth:true},
+  {data:"23/06/2026",hora:"11:00",aluno:"Ávila da Conceição Araújo",titulo:"Detecção de Depressão a Partir de Textos de Redes Sociais",orientador:"Rafael Torres Anchiêta",aval1:"Prof. Dr. Rogério Figueredo de Sousa (IFPI)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+  {data:"23/06/2026",hora:"14:00",aluno:"Pedro Victor Soares da Silva Araujo",titulo:"Detecção de Anomalias em High-Frequency Trading: ML para Identificação de Manipulação de Mercado",orientador:"Rafael Torres Anchiêta",aval1:"José Jeovane Reges Cordeiro",aval2:"Luís Fernando Maia Santos Silva",local:"fab",auth:true},
+  {data:"23/06/2026",hora:"15:00",aluno:"Raislan Ítalo de Sousa da Silva",titulo:"Análise do Desempenho de Modelos 3D Gaussian Splatting Compactados em Dispositivos Móveis",orientador:"Luís Fernando Maia Santos Silva",aval1:"José Jeovane Reges Cordeiro",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"24/06/2026",hora:"08:00",aluno:"José Cássios Costa Torres",titulo:"Classificação de Estilos Interpretativos Pianísticos em Eras da Música Clássica via Pipeline de IA",orientador:"Rafael Torres Anchiêta",aval1:"José Wilker Pereira Luz",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"24/06/2026",hora:"09:00",aluno:"Wilma Silva dos Santos",titulo:"O Impacto do Uso da IA no Processo de Aprendizagem de Estudantes de CC do IFMA",orientador:"José Wilker Pereira Luz",aval1:"Rafael Torres Anchiêta",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"24/06/2026",hora:"10:00",aluno:"Luis Eduardo Martins Formiga",titulo:"Plataforma TEACOLHER: Um Estudo de Caso de Engenharia de Software para Atendimento a Pessoas com TEA",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Dra. Conceição de Maria Aguiar Barros Moura",aval2:"Dra. Francidalma Soares Sousa Carvalho Filha",local:"meet",auth:true},
+  {data:"24/06/2026",hora:"14:00",aluno:"Lara Emanuelly da Silva Santos",titulo:"Comitê de Redes Neurais para Classificação Multiclasse de AVC em Exames de Neuroimagem",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Luís Fernando Maia Santos Silva",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"24/06/2026",hora:"15:00",aluno:"Gabriel Viana da Costa",titulo:"Análise da Sensibilidade de CNNs à Variabilidade de Coloração Histológica no Câncer Colorretal",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Luís Fernando Maia Santos Silva",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"25/06/2026",hora:"09:00",aluno:"Augusto Soares Brandão Galvão de Carvalho",titulo:"Desempenho Preditivo do IBOVESPA: Comparação entre ARIMA e Redes Neurais LSTM",orientador:"José Jeovane Reges Cordeiro",aval1:"Dr. Arlino Henrique Magalhães de Araújo",aval2:"Dr. Bruno Vicente Alves de Lima",local:"fab",auth:true},
+  {data:"25/06/2026",hora:"10:00",aluno:"Carlos Eduardo Lima Coutinho",titulo:"Tecnologia Aplicada ao Controle de Gastos Diários: Protótipo de App com UX/UI no Figma",orientador:"José Jeovane Reges Cordeiro",aval1:"Dr. Arlino Henrique Magalhães de Araújo",aval2:"Dr. Bruno Vicente Alves de Lima",local:"fab",auth:true},
+  {data:"25/06/2026",hora:"11:00",aluno:"Alexandre Henrique Oliveira de Sousa",titulo:"Adoção de IA na Detecção de Ameaças Cibernéticas em Redes Corporativas",orientador:"José Jeovane Reges Cordeiro",aval1:"Dr. Arlino Henrique Magalhães de Araújo",aval2:"Dr. Bruno Vicente Alves de Lima",local:"fab",auth:true},
+  {data:"25/06/2026",hora:"14:00",aluno:"Luis Felipe Assunção Pereira",titulo:"Sistema de Rastreabilidade em Blockchain para a Cadeia de Suprimentos dos Pequenos Produtores Maranhenses",orientador:"François Fernandes Ribeiro Barbosa",aval1:"José Jeovane Reges Cordeiro",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"25/06/2026",hora:"15:00",aluno:"Marcelo Jouglas dos Santos Mendes",titulo:"Sistema Web de Exibição de Fila de Espera: Desenvolvimento e Avaliação",orientador:"François Fernandes Ribeiro Barbosa",aval1:"José Jeovane Reges Cordeiro",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"26/06/2026",hora:"08:00",aluno:"Lucas Eduardo Lima da Silva",titulo:"Otimização da Manutenção Industrial e Conformidade Normativa via RAG",orientador:"Rafael Torres Anchiêta",aval1:"Prof. Dr. Rogério Figueredo de Sousa (IFPI)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+  {data:"26/06/2026",hora:"09:00",aluno:"Randerson Sousa de Sa Nunes",titulo:"Detecção Automática de Astroturfing em Avaliações de Consumidores com PLN",orientador:"Rafael Torres Anchiêta",aval1:"Prof. Dr. Roney Lira de Sales Santos (UFBA)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+  {data:"26/06/2026",hora:"10:00",aluno:"Isaac Levi Oliveira Chaves",titulo:"Sistema de Controle e Monitoramento de Aprazamento de Medicação com Acessibilidade para Idosos",orientador:"Luís Cláudio Mendes Chaves",aval1:"François Fernandes Ribeiro Barbosa",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"26/06/2026",hora:"11:00",aluno:"Juan Pablo de Sousa Silva",titulo:"IHC e Acessibilidade: Interface Adaptativa para Mitigação da Sobrecarga Cognitiva na Dislexia",orientador:"José Wilker Pereira Luz",aval1:"José Jeovane Reges Cordeiro",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"26/06/2026",hora:"15:00",aluno:"Willian Jorge Sousa Furtado",titulo:"MENTISAI: Sistema para Identificação de Perfis de Risco de Depressão via Dispositivos Vestíveis",orientador:"Pedro Almir Martins de Oliveira",aval1:"François Fernandes Ribeiro Barbosa",aval2:"Rafael Torres Anchiêta",local:"fab",auth:true},
+  {data:"30/06/2026",hora:"10:00",aluno:"Heraclito Thiago de Castro Santos",titulo:"Uso de Modelos de Linguagem de Grande Escala (LLMs) no Apoio à Pesquisa Jurídica",orientador:"José Jeovane Reges Cordeiro",aval1:"José Wilker Pereira Luz",aval2:"François Fernandes Ribeiro Barbosa",local:"fab",auth:false},
+  {data:"30/06/2026",hora:"11:00",aluno:"Loyse Kelly Cardoso Diniz",titulo:"Análise e Detecção de Dark Patterns em Aplicativos Mobile: Framework de Design Ético",orientador:"José Wilker Pereira Luz",aval1:"José Jeovane Reges Cordeiro",aval2:"François Fernandes Ribeiro Barbosa",local:"fab",auth:true},
+  {data:"30/06/2026",hora:"14:00",aluno:"Marlon Andre Pereira Almeida",titulo:"Sistema Web para Correção Automatizada de Atividades Matemáticas com Python",orientador:"Walter Araújo Rocha Júnior",aval1:"José Wilker Pereira Luz",aval2:"José Jeovane Reges Cordeiro",local:"fab",auth:true},
+  {data:"01/07/2026",hora:"09:30",aluno:"Bruno Michael da Silva Bonfim",titulo:"Entre o Código e a Ética: IA e Integridade Acadêmica dos Estudantes de CC do IFMA",orientador:"Paulo Henrique Franco Rocha",aval1:"Luís Fernando Maia Santos Silva",aval2:"José Jeovane Reges Cordeiro",local:"fab",auth:true},
+  {data:"01/07/2026",hora:"10:30",aluno:"Jonas Davi Nogueira Sena",titulo:"Análise Comparativa de CNNs para Diagnóstico de Doenças Foliares do Milho com Explicabilidade",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Luís Fernando Maia Santos Silva",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"01/07/2026",hora:"14:00",aluno:"Nailson Onesio de Almeida",titulo:"Multinomial Naive Bayes para Triagem Automatizada de Chamados Técnicos em Centrais de TI",orientador:"Fernando Amaro Ferreira dos Santos",aval1:"Rafael Torres Anchiêta",aval2:"José Wilker Pereira Luz",local:"fab",auth:true},
+  {data:"01/07/2026",hora:"15:00",aluno:"Alisson Vaz Silva",titulo:"Aplicativo Mobile para Registro e Monitoramento de Problemas Urbanos em Caxias (MA)",orientador:"José Wilker Pereira Luz",aval1:"Fernando Amaro Ferreira dos Santos",aval2:"Rafael Torres Anchiêta",local:"fab",auth:false},
+  {data:"02/07/2026",hora:"08:00",aluno:"Ycaro Yan Lourenco Santos",titulo:"Gamificação para Educação Ambiental: Jogo EcoSwipe no Ensino de Separação de Resíduos",orientador:"Luís Fernando Maia Santos Silva",aval1:"José Jeovane Reges Cordeiro",aval2:"Fernando Amaro Ferreira dos Santos",local:"fab",auth:true},
+  {data:"02/07/2026",hora:"09:00",aluno:"Bruno Darwin Bacelar Reis",titulo:"Integração Tecnológica à Agropecuária Familiar Caxiense: Visão Computacional na Contagem de Bovinos",orientador:"José Manoel de Moura Filho",aval1:"Luís Fernando Maia Santos Silva",aval2:"François Fernandes Ribeiro Barbosa",local:"fab",auth:true},
+  {data:"02/07/2026",hora:"10:00",aluno:"Mickaela Evely Sousa de Freitas",titulo:"Monitoramento Automatizado de Invasores em Colônias de Abelhas via Visão Computacional",orientador:"Maria Verônica Meira de Andrade",aval1:"François Fernandes Ribeiro Barbosa",aval2:"José Wilker Pereira Luz",local:"meet",auth:true},
+  {data:"02/07/2026",hora:"14:00",aluno:"Matheus Evangelista",titulo:"INFOCAMPUS: Plataforma Web para Integração Estudantil e Disseminação de Oportunidades Acadêmicas",orientador:"Cristiane da Silva Pereira",aval1:"Profa. Dra. Maria Evelta dos Santos Oliveira (UEMA)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+  {data:"02/07/2026",hora:"15:00",aluno:"Thamires Borges da Silva",titulo:"Plataforma Educacional Interativa para Ensino de Informática no Ensino Fundamental",orientador:"Cristiane da Silva Pereira",aval1:"Profa. Dra. Maria Evelta dos Santos Oliveira (UEMA)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+  {data:"03/07/2026",hora:"08:00",aluno:"Kyan Lucas de Sousa Conceição",titulo:"Uso de Redes Neurais para Prevenção de Lesões Musculares em Atletas",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Dra. Conceição de Maria Aguiar Barros Moura",aval2:"Luís Fernando Maia Santos Silva",local:"fab",auth:true},
+  {data:"03/07/2026",hora:"09:00",aluno:"Neudson Gabriel Costa Castelo Branco",titulo:"Impacto de Técnicas de Aumento de Dados na Classificação de H. pylori em Lâminas Histopatológicas H&E",orientador:"François Fernandes Ribeiro Barbosa",aval1:"Dra. Conceição de Maria Aguiar Barros Moura",aval2:"Luís Fernando Maia Santos Silva",local:"fab",auth:true},
+  {data:"03/07/2026",hora:"14:00",aluno:"Narayane Chaves Lima Ribeiro",titulo:"EPEI: Plataforma Web para Elaboração e Gestão de Planos de Ensino Individualizados",orientador:"Paulo Henrique Franco Rocha",aval1:"Luís Fernando Maia Santos Silva",aval2:"José Wilker Pereira Luz",local:"fab",auth:true},
+  {data:"03/07/2026",hora:"15:00",aluno:"Debriane da Silva Conceição",titulo:"Uso de Grandes Modelos de Língua para Filtragem de Conteúdo Tóxico",orientador:"Rafael Torres Anchiêta",aval1:"Me. Ghivvago Damas Saraiva (MV Saúde Digital)",aval2:"François Fernandes Ribeiro Barbosa",local:"meet",auth:true},
+];
+
+function toKey(d){const[dd,mm,yyyy]=d.split('/');return`${yyyy}-${mm}-${dd}`}
+function wd(d){const[dd,mm,yyyy]=d.split('/');return['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'][new Date(`${yyyy}-${mm}-${dd}`).getDay()]}
+
+const sel=document.getElementById('fData');
+[...new Set(raw.map(r=>r.data))].sort((a,b)=>toKey(a).localeCompare(toKey(b))).forEach(d=>{
+  const o=document.createElement('option');o.value=d;o.textContent=`${d} (${wd(d)})`;sel.appendChild(o);
+});
+
+function render(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const fd=document.getElementById('fData').value;
+  const fl=document.getElementById('fLocal').value;
+  const fa=document.getElementById('fAuth').value;
+  const f=raw.filter(r=>{
+    const t=`${r.aluno} ${r.titulo} ${r.orientador} ${r.aval1} ${r.aval2}`.toLowerCase();
+    return(!q||t.includes(q))&&(!fd||r.data===fd)&&(!fl||(fl==='fab'&&r.local==='fab')||(fl==='meet'&&r.local==='meet'))&&(!fa||(fa==='ok'&&r.auth)||(fa==='pend'&&!r.auth));
+  });
+  document.getElementById('count').textContent=`${f.length} defesa${f.length!==1?'s':''}`;
+  const g={};f.forEach(r=>{if(!g[r.data])g[r.data]=[];g[r.data].push(r);});
+  const dates=Object.keys(g).sort((a,b)=>toKey(a).localeCompare(toKey(b)));
+  document.getElementById('tbody').innerHTML=dates.map(d=>{
+    const its=g[d];
+    return`<tr class="day-sep"><td colspan="7">📅 ${d} — ${wd(d)} · ${its.length} defesa${its.length>1?'s':''}</td></tr>`
+    +its.map(r=>`<tr>
+      <td class="hora">${r.hora}</td>
+      <td class="ca" title="${r.aluno}">${r.aluno}</td>
+      <td class="ct" title="${r.titulo}">${r.titulo}</td>
+      <td class="co" title="${r.orientador}">${r.orientador}</td>
+      <td class="cv" title="${r.aval1} / ${r.aval2}" style="color:#555">${r.aval1}<br>${r.aval2}</td>
+      <td class="cl">${r.local==='meet'?'<span class="meet">📹 Meet</span>':'<span class="fab">🏢 Fábrica</span>'}</td>
+      <td class="cau">${r.auth?'<span class="auth-ok">✓</span>':'<span class="auth-pend">⏳</span>'}</td>
+    </tr>`).join('');
+  }).join('');
+}
+render();
+</script>
+</body>
+</html>
